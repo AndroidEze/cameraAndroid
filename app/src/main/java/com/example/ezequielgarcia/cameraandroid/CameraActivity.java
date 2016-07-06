@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -28,8 +29,6 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         myTexture =(TextureView) findViewById(R.id.textureView1);
         myTexture.setSurfaceTextureListener(this);
@@ -63,7 +62,7 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
         mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
         Camera.Size  previewSize = mCamera.getParameters().getPreviewSize();
-        myTexture.setLayoutParams(new RelativeLayout.LayoutParams(previewSize.width, previewSize.height));
+        myTexture.setLayoutParams(new LinearLayout.LayoutParams(previewSize.width, previewSize.height));
         try {
             mCamera.setPreviewTexture(surface);
         } catch (IOException e) {
