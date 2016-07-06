@@ -20,6 +20,13 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+        <TextureView
+            android:id="@+id/cameraView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true" />
+
 
     </android.support.design.widget.AppBarLayout>
 
