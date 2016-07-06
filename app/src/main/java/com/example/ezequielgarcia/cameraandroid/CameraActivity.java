@@ -7,16 +7,20 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.TextureView;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import java.io.IOException;
 
 public class CameraActivity extends AppCompatActivity implements TextureView.SurfaceTextureListener{
 
     private Camera mCamera;
-    private TextureView mTextureView;
+    private TextureView myTexture;
 
 
     @Override
@@ -26,18 +30,10 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mTextureView = new TextureView(this);
-        mTextureView.setSurfaceTextureListener(this);
-        setContentView(mTextureView);
+        myTexture = new TextureView(this);
+        myTexture.setSurfaceTextureListener(this);
+        setContentView(myTexture);
 
-       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
     }
 
     @Override
@@ -64,7 +60,19 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
 
     @Override
     public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
-
+        mCamera = Camera.open(Camera.CameraInfo.CAMERA_FACING_FRONT);
+        Camera.Size  previewSize = mCamera.getParameters().getPreviewSize();
+        myTexture.setLayoutParams(new FrameLayout.LayoutParams(
+                previewSize.width, previewSize.height, Gravity.CENTER
+        ));
+        try {
+            mCamera.setPreviewTexture(surface);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        mCamera.startPreview();
+        myTexture.setAlpha(1.0f);
+        myTexture.setRotation(90.0f);
     }
 
     @Override
@@ -74,7 +82,9 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
 
     @Override
     public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-        return false;
+        mCamera.stopPreview();
+        mCamera.release();
+        return true;
     }
 
     @Override
