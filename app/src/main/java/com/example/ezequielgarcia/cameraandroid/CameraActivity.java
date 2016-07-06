@@ -1,15 +1,23 @@
 package com.example.ezequielgarcia.cameraandroid;
 
+import android.graphics.SurfaceTexture;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.TextureView;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
-public class CameraActivity extends AppCompatActivity {
+public class CameraActivity extends AppCompatActivity implements TextureView.SurfaceTextureListener{
+
+    private Camera mCamera;
+    private TextureView mTextureView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +25,10 @@ public class CameraActivity extends AppCompatActivity {
         setContentView(R.layout.activity_camera);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mTextureView = new TextureView(this);
+        mTextureView.setSurfaceTextureListener(this);
+        setContentView(mTextureView);
 
        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -48,5 +60,25 @@ public class CameraActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+
+    }
+
+    @Override
+    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
+
+    }
+
+    @Override
+    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+        return false;
+    }
+
+    @Override
+    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+
     }
 }
