@@ -1,5 +1,6 @@
 package com.example.ezequielgarcia.cameraandroid;
 
+import android.content.res.Configuration;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.TextureView;
 import android.view.View;
@@ -69,13 +71,17 @@ public class CameraActivity extends AppCompatActivity implements TextureView.Sur
             e.printStackTrace();
         }
         mCamera.startPreview();
-        myTexture.setAlpha(1.0f);
-        myTexture.setRotation(90.0f);
+        //mCamera.takePicture();
     }
 
     @Override
     public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
-
+        Log.d("So", "nooo");
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            mCamera.setDisplayOrientation(0);
+        } else {
+            mCamera.setDisplayOrientation(180);
+        }
     }
 
     @Override
